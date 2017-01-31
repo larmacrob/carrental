@@ -559,9 +559,6 @@ def insertveh(type,evhvars,extvars):
             return 'Vehicle Already Exists'
 
 
-
-
-
 def updateveh(type,vehvars,extvars):
     conn = sqlite3.connect('rental.db')
     conn.execute("PRAGMA foreign_keys = ON")
