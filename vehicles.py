@@ -310,6 +310,9 @@ def makeclass(rows):
             x.settype(row[7])
             x.setdoors(row[8])
             x.setpassangers(row[9])
+            x.setextra('Sat', getextra(row[0], 'Sat'))
+            x.setextra('Ins', getextra(row[0], 'Ins'))
+            x.setextra('Cseat', getextra(row[0], 'Cseat'))
             list.append(x)
         elif row[7]=='Vans':
             x=Vans (row[0])
@@ -322,6 +325,8 @@ def makeclass(rows):
             x.settype(row[7])
             x.setpassangers(row[9])
             x.setcapacity(row[11])
+            x.setextra('Sat', getextra(row[0], 'Sat'))
+            x.setextra('Ins', getextra(row[0], 'Ins'))
             list.append(x)
         elif row[7]=='Camper':
             x=Camper(row[0])
@@ -333,6 +338,9 @@ def makeclass(rows):
             x.setweekendcost(row[6])
             x.settype(row[7])
             x.setbeds(row[10])
+            x.setextra('Sat',getextra(row[0],'Sat'))
+            x.setextra('Ins', getextra(row[0], 'Ins'))
+
             list.append(x)
     return(list)
 #return all types to populate the types list
@@ -685,6 +693,17 @@ def delveh(plate):
     c.execute('''Delete from vehicles where plate=?
                   ''', (plate,))
     conn.commit()
+
+def getextra(plate,extra):
+    conn = sqlite3.connect('rental.db')
+    conn.execute("PRAGMA foreign_keys = ON")
+    c = conn.cursor()
+    c.execute(''' select extcst from extras where plate=? and extra=?''',(plate,extra,))
+    rows = c.fetchone()
+    if rows is None:
+        return 0.0
+    else:
+        return rows[0]
 
 
 #populateveh()
